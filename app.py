@@ -165,7 +165,7 @@ if len(df) < 25:
 st.markdown('<div class="setup"><div class="eyebrow">01 / Choose forecast time</div><div class="setup-copy">Choose the reference date first, then select the hour to forecast the next hour.</div>', unsafe_allow_html=True)
 min_date = df.datetime.min().date()
 max_date = df.datetime.max().date()
-chosen_date = st.date_input("Choose date", value=max_date, min_value=min_date, max_value=max_date, format="DD MMM YYYY")
+chosen_date = st.date_input("Choose date", value=max_date, min_value=min_date, max_value=max_date, format="DD/MM/YYYY")
 day = df[df.datetime.dt.date == chosen_date]
 if day.empty:
     st.warning("No dataset records are available on this date.")
