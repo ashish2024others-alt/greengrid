@@ -221,25 +221,7 @@ if result:
     </div>
     """, unsafe_allow_html=True)
 
-    st.markdown('<div class="panel"><div class="eyebrow">Generation trend</div><p style="color:#aebbd4;font-size:13px">Historical renewable generation across the 24 input hours, with the model estimate shown at the next hour.</p></div>', unsafe_allow_html=True)
-    plot = df.loc[max(0, idx-23):idx, ["datetime", "Total_Renewable"]].copy()
-    plot = plot.rename(columns={"datetime":"Time", "Total_Renewable":"Observed"})
-    future = pd.DataFrame({"Time":[selected_dt+timedelta(hours=1)], "Observed":[np.nan], "Forecast":[result["value"]]})
-    plot["Forecast"] = np.nan
-    chart = pd.concat([plot, future], ignore_index=True).set_index("Time")
-    st.line_chart(chart, use_container_width=True)
-    st.caption("Observed values come from the historical dataset. The final point is a one-hour-ahead model estimate.")
 
-    with st.expander("☀️ Solar and 🌬️ wind resource indicators"):
-        st.write("These are weather/resource indicators, not separate solar and wind generation predictions.")
-        window = df.loc[idx-23:idx]
-        left, right = st.columns(2)
-        with left:
-            st.markdown("**☀️ Shortwave radiation**")
-            st.line_chart(window.set_index("datetime")[["shortwave_radiation"]], use_container_width=True)
-        with right:
-            st.markdown("**🌬️ Wind speed at 10 m**")
-            st.line_chart(window.set_index("datetime")[["windspeed_10m"]], use_container_width=True)
 else:
     st.info("Choose a date and time, then press **Generate forecast** to see the result.")
 
