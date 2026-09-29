@@ -35,7 +35,7 @@ h1,h2,h3,p,label,span { color:#f4f6ff; }
 }
 .brand { font-size:clamp(54px,8vw,78px); line-height:1; font-weight:900; letter-spacing:-3.5px; color:#fff; }
 .brand .bolt { color:#91b4ff; }
-.subtitle { font-size:clamp(19px,3vw,26px);font-weight:650;color:#cbd6ee;margin-top:13px;letter-spacing:-.35px; }
+.subtitle { font-size:clamp(21px,3.4vw,29px);font-weight:700;color:#d8e1f5;margin-top:15px;letter-spacing:-.45px; }
 .intro { color:#aab7d1;font-size:15px;line-height:1.7;margin-top:11px;max-width:760px; }
 .eyebrow { color:#a9bbdf;font-size:12px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase; }
 .setup {
@@ -48,12 +48,15 @@ div[data-testid="stDateInput"] label,div[data-testid="stSelectbox"] label {
 }
 div[data-testid="stDateInput"] input,
 div[data-testid="stSelectbox"] div[data-baseweb="select"]>div {
-  background:#26334e!important;color:#fff!important;border:1.5px solid #657ba5!important;
-  border-radius:13px!important;min-height:60px!important;font-size:20px!important;
-  font-weight:650!important;opacity:1!important;
+  background:#202d47!important;color:#ffffff!important;-webkit-text-fill-color:#ffffff!important;
+  border:1.5px solid #7188b5!important;border-radius:14px!important;min-height:68px!important;
+  font-size:22px!important;font-weight:700!important;opacity:1!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
 }
+div[data-testid="stDateInput"] input {padding:12px 16px!important;}
+div[data-testid="stDateInput"] input::-webkit-calendar-picker-indicator {filter:invert(1);opacity:1;cursor:pointer;}
 div[data-testid="stDateInput"] input {color-scheme:dark!important;}
-div[data-testid="stDateInput"] input::placeholder {color:#cbd5eb!important;opacity:1!important;}
+div[data-testid="stDateInput"] input::placeholder {color:#e1e8f7!important;opacity:1!important;}
 div[data-testid="stDateInput"] svg,div[data-testid="stSelectbox"] svg {color:#e6edff!important;}
 .stButton>button {
   background:linear-gradient(100deg,#9ab0ff,#7bd9e4);color:#0c1426;border:0;
@@ -130,8 +133,8 @@ def load_assets():
 st.markdown("""
 <div class="hero">
   <div class="brand">Green Grid <span class="bolt">⚡</span></div>
-  <div class="subtitle">Renewable Energy Forecasting &amp; EV Outlook</div>
-  <div class="intro">Choose a date and time to estimate renewable energy generation for the next hour, along with an illustrative electric-vehicle charging equivalent.</div>
+  <div class="subtitle">Renewable Energy Forecasting</div>
+  <div class="intro">Select a date and time, then generate a one-hour-ahead renewable energy forecast with an illustrative EV charging equivalent.</div>
 </div>
 """, unsafe_allow_html=True)
 
@@ -159,7 +162,7 @@ if len(df) < 25:
     st.error("Not enough valid hourly records.")
     st.stop()
 
-st.markdown('<div class="setup"><div class="eyebrow">01 / Choose forecast time</div><div class="setup-copy">Select the latest known date and hour. The model will predict the following hour.</div>', unsafe_allow_html=True)
+st.markdown('<div class="setup"><div class="eyebrow">01 / Choose forecast time</div><div class="setup-copy">Choose the reference date first, then select the hour to forecast the next hour.</div>', unsafe_allow_html=True)
 min_date = df.datetime.min().date()
 max_date = df.datetime.max().date()
 chosen_date = st.date_input("Choose date", value=max_date, min_value=min_date, max_value=max_date, format="DD MMM YYYY")
