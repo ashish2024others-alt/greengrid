@@ -6,7 +6,7 @@ from pathlib import Path
 from datetime import timedelta
 import tensorflow as tf
 
-st.set_page_config(page_title="Renewable Energy Forecasting", page_icon="⚡", layout="centered")
+st.set_page_config(page_title="GreenGrid | Renewable Energy Forecasting", page_icon="⚡", layout="centered")
 
 st.markdown("""
 <style>
@@ -26,9 +26,9 @@ h1,h2,h3,p,label,span { color:#edf4fb; }
   animation:rise .65s ease-out both;
 }
 .eyebrow { color:#70c7e8; font-size:11px; font-weight:800; letter-spacing:2px; text-transform:uppercase; margin-bottom:17px; }
-.brand { color:#f4f8ff; font-size:clamp(34px,7vw,49px); line-height:1.08; font-weight:850; letter-spacing:-1.8px; }
+.brand { color:#f4f8ff; font-size:clamp(48px,10vw,68px); line-height:1.02; font-weight:900; letter-spacing:-2.6px; }
 .brand-mark { color:#70c7e8; }
-.subtitle { color:#b8cce0; font-size:clamp(17px,3.7vw,22px); font-weight:650; margin-top:13px; }
+.subtitle { color:#b8cce0; font-size:clamp(19px,4vw,25px); font-weight:700; margin-top:13px; }
 .intro { color:#91a7bb; font-size:14px; line-height:1.7; margin-top:10px; max-width:640px; }
 .section-head { color:#9fc3dd; font-size:11px; font-weight:850; letter-spacing:1.7px; text-transform:uppercase; margin:22px 0 6px; }
 .section-help { color:#8196aa; font-size:13px; line-height:1.6; margin-bottom:13px; }
@@ -161,11 +161,11 @@ if len(df) < 25:
     st.error("Not enough valid hourly records to create a forecast.")
     st.stop()
 
-st.markdown('<div class="section-head">01 / Choose forecast date and time</div><div class="section-help">Select a reference hour from the historical dataset. The model will estimate renewable generation for the following hour.</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-head">Choose your forecast</div><div class="section-help">Select the date first, then choose the reference time. GreenGrid will predict the following hour.</div>', unsafe_allow_html=True)
 with st.container(border=True):
     min_date = df.datetime.min().date()
     max_date = df.datetime.max().date()
-    chosen_date = st.date_input("Choose date", value=max_date, min_value=min_date, max_value=max_date, format="DD/MM/YYYY")
+    chosen_date = st.date_input("1. Choose date", value=max_date, min_value=min_date, max_value=max_date, format="DD/MM/YYYY")
     day = df[df.datetime.dt.date == chosen_date]
     if day.empty:
         st.warning("There are no records for this date. Please choose another date.")
@@ -212,14 +212,14 @@ if result:
     st.markdown('<div class="section-head">02 / Your forecast</div>', unsafe_allow_html=True)
     st.markdown(f"""
     <div class="result-card">
-      <div class="result-top"><div class="result-label">☀️  PREDICTED RENEWABLE GENERATION</div><div class="result-icon">⚡</div></div>
+      <div class="result-top"><div class="result-label">☀️  TOTAL RENEWABLE GENERATION</div><div class="result-icon">🌞</div></div>
       <div class="result-number">{result["value"]:,.2f}</div>
       <div class="unit">Value in the dataset’s original unit</div>
       <div class="result-note">Predicted hour: {result["time"]}<br>One-hour-ahead model estimate based on historical data — not a live grid reading.</div>
     </div>
     <div style="height:13px"></div>
     <div class="result-card ev">
-      <div class="result-top"><div class="result-label">🚗  ILLUSTRATIVE EV ENERGY EQUIVALENT</div><div class="result-icon">🔋</div></div>
+      <div class="result-top"><div class="result-label">🚙  EV CHARGING EQUIVALENT</div><div class="result-icon">🔋</div></div>
       <div class="result-number">{result["value"]/25:,.1f} EVs</div>
       <div class="unit">Estimated equivalent using the project assumption of 25 kWh per EV</div>
       <div class="result-note">Illustrative comparison only. Dataset units are not specified as a physical energy unit, so this is not a measured vehicle count or a charging guarantee.</div>
